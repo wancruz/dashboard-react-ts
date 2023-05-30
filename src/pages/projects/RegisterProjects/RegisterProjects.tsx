@@ -18,31 +18,31 @@ import Form from "../../../components/forms/Form";
 const RegisterProjects: React.FC = () => {
 
 
-const navigate = useNavigate();
-const location = useLocation();
-const itemList = location.state as InfoProject;
+  const navigate = useNavigate();
+  // const location = useLocation();
+  const project = useLocation().state as InfoProject;
 
-const initialValues: InfoProject = {
-  id:0,
-  link: "",
-  image: "",
-  title: "",
-};
+  const initialValues: InfoProject = {
+    // id:0,
+    link: "",
+    image: "",
+    title: "",
+  };
 
-const validationSchema = Yup.object().shape({
-  id:Yup.number(),
-  link: Yup.string().required('Campo obrigatório'),
-  image: Yup.string().required('Campo obrigatório'),
-  title: Yup.string().required('Campo obrigatório'),
-});
+  const validationSchema = Yup.object().shape({
+    id: Yup.number(),
+    link: Yup.string().required('Campo obrigatório'),
+    image: Yup.string().required('Campo obrigatório'),
+    title: Yup.string().required('Campo obrigatório'),
+  });
 
-  const onSubmit = async (values: InfoProject,{ resetForm }: { resetForm: () => void }) => {
-     try {
+  const onSubmit = async (values: InfoProject, { resetForm }: { resetForm: () => void }) => {
+    try {
       await createOrUpdateInfoProject(values);
-      console.log(values);
       resetForm();
+      navigate("/projects/listagem");
       alert("Formulario enviado com Sucesso!");
-    }catch(error){
+    } catch (error) {
       console.log(error);
       alert("Erro ao enviar formulario!")
     }
@@ -52,22 +52,27 @@ const validationSchema = Yup.object().shape({
   return (
     <div className={styles.formWrapper}>
 
-<Form
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}>
+      <Form
+        initialValues={ project || initialValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}>
 
-          {({ errors, touched }) => (
+        {({ errors, touched }) => (
 
-            <>
-             <Title>Cadastrar Projeto</Title>
-
-             <Input
-              label="Link"
-              name="link"
-              errors={errors.link}
-              touched={touched.link}
+          <>
+              { !project ?
+                 <Title>Cadastrar Projeto</Title>
+                 :
+                 <Title>Atualizar Projeto</Title>
+              }
+           
+            <Input
+              label="Titulo"
+              name="title"
+              errors={errors.title}
+              touched={touched.title}
             />
+
 
             <Input
               label="Imagem"
@@ -77,19 +82,19 @@ const validationSchema = Yup.object().shape({
             />
 
             <Input
-              label="Titulo"
-              name="title"
-              errors={errors.title}
-              touched={touched.title}
+              label="Link"
+              name="link"
+              errors={errors.link}
+              touched={touched.link}
             />
-    
+
             <Button
               type="submit"
             >Cadastrar</Button>
-            </>
-              )}
-          </Form>
-     
+          </>
+        )}
+      </Form>
+
 
     </div>
 
@@ -97,3 +102,4 @@ const validationSchema = Yup.object().shape({
 };
 
 export default RegisterProjects;
+

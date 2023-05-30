@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState}  from "react"; 
-import { User } from "../services/useService";
+import { User } from "../services/authService";
 import { useEffect } from "react";
 
 interface AuthContextProps {
@@ -19,7 +19,7 @@ export const useAuth = () => useContext(AuthContext);
 
 export const AuthProvider: React.FC = ({ children }) => { 
   const [authenticated, setAuthenticated] =useState(false);
-  const [user, setUser] =useState<User>({} as User);
+  const [user, setUser] =useState({} as User);
   const [isLoading, setIsLoading] =useState(true);
   
   useEffect(() => {
@@ -32,10 +32,10 @@ export const AuthProvider: React.FC = ({ children }) => {
    },[]); 
 
 
-  const login = (loggedUser: User) => {
-    setUser(loggedUser);
+  const login = (loggedInUser: User) => {
+    setUser(loggedInUser);
     setAuthenticated(true);
-    localStorage.setItem("user", JSON.stringify(loggedUser));
+    localStorage.setItem("user", JSON.stringify(loggedInUser));
 
   };
 

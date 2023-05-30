@@ -19,12 +19,12 @@ import Form from "../../../components/forms/Form";
 const Skills: React.FC = () => {
 
   const navigate = useNavigate();
-  const location = useLocation();
-  const itemList = location.state as InfoSkill;
+  // const location = useLocation();
+  const skill = useLocation().state as InfoSkill;
 
 
   const initialValues: InfoSkill = {
-    id: 0,
+    // id: 0,
     name: "",
     image: "",
     tipo: "",
@@ -41,8 +41,8 @@ const Skills: React.FC = () => {
   const onSubmit = async (values: InfoSkill, { resetForm }: { resetForm: () => void }) => {
     try {
       await createOrUpdateInfoSkill(values);
-      console.log(values);
       resetForm();
+      navigate("/skill/lista");
       alert("Formulario enviado com Sucesso!");
     } catch (error) {
       console.log(error);
@@ -54,15 +54,18 @@ const Skills: React.FC = () => {
   return (
     <div className={styles.formWrapper}>
       <Form
-        initialValues={initialValues}
+        initialValues={skill||initialValues}
         validationSchema={validationSchema}
         onSubmit={onSubmit}>
 
         {({ errors, touched }) => (
 
           <>
+           { !skill ?
             <Title>Cadastrar Habilidade</Title>
-
+            :
+            <Title>Atualizar Habilidade</Title>
+          }
             <Input
               label="Habilidade"
               name="name"

@@ -9,11 +9,6 @@ import { InfoSkill, deleteInfoSkill, getInfoSkill, updateInfoSkill } from "../..
 import { Table,Column } from "../../../components/common/Table";
 
 
-interface ItemList {
-  name: string;
-  image: string;
-  tipo: string;
-}
 
 const SkillList: React.FC = () => {
 
@@ -52,9 +47,9 @@ const SkillList: React.FC = () => {
   };
 
   const columns: Column<InfoSkill>[] = [
-    {header: "Nome", accessor: "name"},
+    {header: "Habilidade", accessor: "name"},
     {header: "Imagem", accessor: "image"},
-    {header: "Tipo", accessor: "tipo"},
+    {header: "Nivel", accessor: "tipo"},
   ];
 
   return (

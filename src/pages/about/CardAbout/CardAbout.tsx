@@ -8,8 +8,8 @@ interface CardAboutProps {
 }
 
 const CardAbout: React.FC<CardAboutProps> = ({infoAbout}) => {
+ 
   const {foto, resumo} = infoAbout;
-
   return (
     <div className={styles.card}>
       <img src={foto}  className={styles.foto} />

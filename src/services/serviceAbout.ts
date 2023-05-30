@@ -10,17 +10,18 @@ export interface InfoAbout {
 
 
 export const createInfoAbout = async (infoAbout: InfoAbout): Promise<InfoAbout> => {
-    const response = await api.post<InfoAbout>('/infoAbout', infoAbout);
+    const response = await api.post<InfoAbout>('/sobre', infoAbout);
     return response.data;
 }
 
  export const updateInfoAbout = async (infoAbout:InfoAbout): Promise<InfoAbout> => {
-    const response =  await api.put<InfoAbout>('/infoAbout/1', infoAbout);
+    const response =  await api.put<InfoAbout>('/sobre/1', infoAbout);
     return response.data;
  }
 
  export const getInfoAbout = async (): Promise<InfoAbout> => {
-   const response = await api.get<InfoAbout>('/infoAbout/1');
+   const response = await api.get<InfoAbout>('/sobre/1');
+   
    return response.data;
  }
 
@@ -33,11 +34,7 @@ export const createInfoAbout = async (infoAbout: InfoAbout): Promise<InfoAbout> 
 }
 
 export const deleteInfoAbout = async (): Promise<void> => {
- await api.delete('/infoAbout/1');
+ await api.delete('/sobre/1');
  }
 
-// export async function updateAbout(infoAbout:InfoAbout): Promise<InfoAbout> {
-//   const response = await api.post<InfoAbout>('/infoAbout/1');
-//  return response.data;   
-//}
 

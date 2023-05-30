@@ -1,27 +1,7 @@
 
-import reactRefresh from '@vitejs/plugin-react-refresh';
-import { defineConfig } from 'vite';
+import react from "@vitejs/plugin-react";
 
-export default defineConfig({
-  plugins: [
-    reactRefresh(),
-  ],
-  esbuild: {
-    jsxFactory: 'React.createElement',
-    jsxFragment: 'React.Fragment',
-  },
-});
-
-
-
-
-
-// import * as reactPlugin from 'vite-plugin-react'
-// import type { UserConfig } from 'vite'
-
-// const config: UserConfig = {
-//   jsx: 'react',
-//   plugins: [reactPlugin]
-// }
-
-// export default config;
+const config = {
+    plugins: [react()]
+}
+export default config;

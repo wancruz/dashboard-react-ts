@@ -20,8 +20,6 @@ import { Axios, AxiosError } from "axios";
 
 
 
-
-
 const RegisterAbout: React.FC = () => {
 
   const [infoAbout, setInfoAbout] = useState<InfoAbout>();
@@ -32,121 +30,120 @@ const RegisterAbout: React.FC = () => {
     resumo: '',
   };
 
-  {
-    const validationSchema = Yup.object().shape({
-      foto: Yup.string().required('Campo obrigatório'),
-      resumo: Yup.string().required('Campo obrigatório'),
-    });
+  const validationSchema = Yup.object().shape({
+    foto: Yup.string().required('Campo obrigatório'),
+    resumo: Yup.string().required('Campo obrigatório'),
+  });
 
-    const fetchInfoAbout = async () => {
-      try {
-        const infoAbout = await getInfoAbout();
-        setInfoAbout(infoAbout);
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          if (error.response?.status !== 400) {
-            console.error("Erro ao buscar informações:", error);
-          }
-        } else {
-          console.error("Ocorreu um erro desconhecido ao buscar informações:", error);
+  const fetchInfoAbout = async () => {
+    try {
+      const infoAbout = await getInfoAbout();
+      setInfoAbout(infoAbout);
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.status !== 404) {
+          console.error("Erro ao buscar informações:", error);
         }
+      } else {
+        console.error("Ocorreu um erro desconhecido ao buscar informações:", error);
       }
-    };
-    // Hook para gerenciar vida do componente, serve para quando rendenizar pela priemira vez - useEffect
-    useEffect(() => {
-      fetchInfoAbout();
-    }, []);
+    }
+  };
+  // Hook para gerenciar vida do componente, serve para quando rendenizar pela priemira vez - useEffect
+  useEffect(() => {
+    fetchInfoAbout();
+  }, []);
 
 
-    const [showSaveButton, setShowSaveButton] = useState(
-      localStorage.getItem('showSaveButton') === 'true' ? false : true
-    );
-    
-    const onSubmit = async (values: InfoAbout) => {
-      try {
-        await createOrUpdateInfoAbout(values);
-        setInfoAbout(values);
-        setShowSaveButton(false); // oculta o botão após salvar/atualizar os dados
-        localStorage.setItem('showSaveButton', 'true'); // salva o estado da variável no localStorage
-        alert('Formulário enviado com sucesso!');
-      } catch (error) {
-        console.error('Erro ao enviar formulário:', error);
-        alert('Ocorreu um erro ao enviar formulario. Tente novamente.');
-      }
-    };
-    
-    const handleDelete = async () => {
-      try {
-        await deleteInfoAbout();
-        setInfoAbout(undefined);
-        setShowSaveButton(true);
-        localStorage.setItem('showSaveButton', 'false'); // salva o estado da variável no localStorage
-        alert("Informações deletadas com sucesso!");
-      } catch (error) {
-        console.error("Erro ao deletar informações", error);
-        alert("Ocorreu um erro ao deletar as informações. Tente novamente.")
-      }
-    };
-    
-    useEffect(() => {
-      localStorage.getItem('showSaveButton') === 'true'
-        ? setShowSaveButton(false)
-        : setShowSaveButton(true)
-    }, []);
+  const onSubmit = async (values: InfoAbout) => {
+    try {
+      await createOrUpdateInfoAbout(values);
+      setInfoAbout(values);
+      alert('Formulário enviado com sucesso!');
+    } catch (error) {
+      console.error('Erro ao enviar formulário:', error);
+      alert('Ocorreu um erro ao enviar formulario. Tente novamente.');
+    }
+  };
 
-    return (
-      <div className={styles.formWrapper}>
+  const handleDelete = async () => {
+    try {
+      await deleteInfoAbout();
+      setInfoAbout(undefined);
+      alert("Informações deletadas com sucesso!");
+    } catch (error) {
+      console.error("Erro ao deletar informações", error);
+      alert("Ocorreu um erro ao deletar as informações. Tente novamente.")
+    }
+  };
 
-        <Form
-          initialValues={infoAbout || initialValues}
-          enableReinitialize={true}
-          validationSchema={validationSchema}
-          onSubmit={onSubmit}>
+  return (
+    <div className={styles.formWrapper}>
 
-          {({ errors, touched }) => (
+      <Form
+        initialValues={infoAbout || initialValues}
+        enableReinitialize={true}
+        validationSchema={validationSchema}
+        onSubmit={onSubmit}>
 
-            <>
-              <Title>Informações Sobre</Title>
+        {({ errors, touched }) => (
 
-              <Input
-                label="Foto"
-                name="foto"
-                errors={errors.foto}
-                touched={touched.foto}
-              />
+          <>
+            <Title>Informações Sobre</Title>
 
-              <Textarea
-                label="Resumo"
-                name="resumo"
-                errors={errors.resumo}
-                touched={touched.resumo}
-              />
+            <Input
+              label="Foto"
+              name="foto"
+              errors={errors.foto}
+              touched={touched.foto}
+            />
 
-              {showSaveButton && (
-                <Button type="submit">
-                  Salvar
-                </Button>
-              )}
-            </>
-          )}
-
-        </Form>
-
-        {infoAbout &&
-          <div className={styles.cardContainer}>
-            <CardAbout infoAbout={infoAbout} />
-
-            <Button
-              type="button"
-              onClick={handleDelete}
-              red
-            >Deletar
+            <Textarea
+              label="Resumo"
+              name="resumo"
+              errors={errors.resumo}
+              touched={touched.resumo}
+            />
+            <Button type="submit">
+              Salvar
             </Button>
 
-          </div>
-        }
-      </div>
-    );
-  };
-}
+          </>
+        )}
+
+      </Form>
+
+      {infoAbout &&
+        <div className={styles.cardContainer}>
+          <CardAbout infoAbout={infoAbout} />
+
+          <Button
+            type="button"
+            onClick={handleDelete}
+            red
+          >Deletar
+          </Button>
+
+        </div>
+      }
+    </div>
+  );
+};
 export default RegisterAbout;
+
+
+
+
+// {infoAbout && Object.keys(infoAbout).length > 0 && (
+//   <div className={styles.cardContainer}>
+//     <CardAbout infoAbout={infoAbout} />
+
+//     <Button
+//       type="button"
+//       onClick={handleDelete}
+//       red
+//     >Deletar
+//     </Button>
+
+//   </div>
+// )}

@@ -6,13 +6,7 @@
       "password": "teste@123"
     }
   ],
-  "infoAbout": [
-    {
-      "foto": "https://raw.githubusercontent.com/wancruz/site-wanderson/master/src/images/pixlr-bg-result%20(1).png",
-      "resumo": "dsadasda",
-      "id": 1
-    }
-  ],
+  "infoAbout": [],
   "infoSkill": [
     {
       "id": 1,
@@ -36,12 +30,6 @@
       "id": 4,
       "name": "React",
       "image": "https://raw.githubusercontent.com/wancruz/site-wanderson/master/src/images/react%20(1).png",
-      "tipo": "aprimorando"
-    },
-    {
-      "id": 5,
-      "name": "Node",
-      "image": "https://raw.githubusercontent.com/wancruz/site-wanderson/master/src/images/nodejs.png",
       "tipo": "aprimorando"
     }
   ],
